@@ -1,19 +1,6 @@
 import cv2
-import numpy as np
-import pandas as pd
-import zipfile
-
-import tensorflow
-from Tools.scripts.treesync import raw_input
 from tensorflow.keras.models import load_model
-from tensorflow.keras.preprocessing.image import img_to_array
-
-from IPython.display import HTML, Audio
-#from google.colab.output import eval_js
-from base64 import b64decode
 import numpy as np
-import io
-from PIL import Image
 
 camera = cv2.VideoCapture(1)
 
