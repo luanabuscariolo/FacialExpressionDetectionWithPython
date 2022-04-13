@@ -1,3 +1,5 @@
+#DETECTOR DE EXPRESSÕES FACIAIS COM AS PORCENTAGENS DE CADA EMOÇÃO
+
 import cv2
 from tensorflow.keras.models import load_model
 import numpy as np
@@ -30,7 +32,6 @@ while (True):
     imagemColorida = imagem.copy()
     # Inverte a ordem dos canais (utilizar caso a imagem capturada fique com cores invertidas)
     imagem = cv2.cvtColor(imagem, cv2.COLOR_BGR2RGB)
-    #cv2.imshow("Face", imagem)
 
     cv2.imwrite("testecaptura.jpg",imagem)
 
@@ -54,9 +55,6 @@ while (True):
     else:
         print('Nenhuma face detectada')
 
-    #cv2.imshow("Face", original)
-
-
     probabilidades = imagemColorida.copy()
 
     # Mostra gráfico apenas se detectou uma face
@@ -72,8 +70,6 @@ while (True):
                         (0, 0, 0), 1, cv2.LINE_AA)
 
         cv2.imshow('Face',probabilidades)
-
-
 
     cv2.imwrite("captura.jpg", probabilidades)
     if cv2.waitKey(1) & 0xFF == ord('q'):
