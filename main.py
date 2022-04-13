@@ -6,15 +6,13 @@ import numpy as np
 
 camera = cv2.VideoCapture(1)
 
-def tirar_foto(filename='photo.jpg', quality=2, size=(400, 300)):
+def tirar_foto():
     conectado, imagem = camera.read()
     cv2.imshow("Face", imagem)
     return imagem
 
 cascade_faces = 'Materiall/Material/haarcascade_frontalface_default.xml'
 caminho_modelo = 'Materiall/Material/modelo_01_expressoes.h5'
-face_detection = cv2.CascadeClassifier(cascade_faces)
-classificador_emocoes = load_model(caminho_modelo, compile=False)
 
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.image import img_to_array
@@ -25,19 +23,17 @@ classificador_emocoes = load_model(caminho_modelo, compile=False)
 
 expressoes = ["Raiva", "Nojo", "Medo", "Feliz", "Triste", "Surpreso", "Neutro"]
 
-
 while (True):
     # Clique na imagem da webcam para tirar uma foto
-    imagem = tirar_foto()
-    imagemColorida = imagem.copy()
+    imagemOriginal = tirar_foto()
+    imagemColorida = imagemOriginal.copy()
     # Inverte a ordem dos canais (utilizar caso a imagem capturada fique com cores invertidas)
-    imagem = cv2.cvtColor(imagem, cv2.COLOR_BGR2RGB)
+    imagemPosProcessada = cv2.cvtColor(imagemOriginal, cv2.COLOR_BGR2RGB)
 
-    cv2.imwrite("testecaptura.jpg",imagem)
+    cv2.imwrite("testecaptura.jpg",imagemPosProcessada)
 
-    original = imagem.copy()
-    faces = face_detection.detectMultiScale(original, scaleFactor=1.1, minNeighbors=3, minSize=(20, 20))
-    cinza = cv2.cvtColor(original, cv2.COLOR_BGR2GRAY)
+    faces = face_detection.detectMultiScale(imagemPosProcessada, scaleFactor=1.1, minNeighbors=3, minSize=(20, 20))
+    cinza = cv2.cvtColor(imagemPosProcessada, cv2.COLOR_BGR2GRAY)
 
     if len(faces) > 0:
         for (fX, fY, fW, fH) in faces:
