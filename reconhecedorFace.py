@@ -8,13 +8,13 @@ detectorFace = cv2.CascadeClassifier("haarcascade-frontalface-default.xml")
 #reconhecedor.read("classificadorEigen.yml")
 
 #LBPHFACE
-#reconhecedor = cv2.face.LBPHFaceRecognizer_create()
-#reconhecedor.read("classificadorLBPH.yml")
+reconhecedor = cv2.face.LBPHFaceRecognizer_create()
+reconhecedor.read("classificadorLBPH.yml")
 
 #MELHOR RECONHECEDOR DOS 3 CONFORME TESTE EM FOTOS TIRADAS
 #FISHERFACE
-reconhecedor = cv2.face.FisherFaceRecognizer_create()
-reconhecedor.read("classificadorFisher.yml")
+#reconhecedor = cv2.face.FisherFaceRecognizer_create()
+#reconhecedor.read("classificadorFisher.yml")
 
 largura, altura = 220, 220
 font = cv2.FONT_HERSHEY_COMPLEX_SMALL
