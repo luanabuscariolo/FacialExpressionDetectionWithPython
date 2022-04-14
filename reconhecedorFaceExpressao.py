@@ -3,7 +3,7 @@
 import cv2
 import numpy as np
 
-camera = cv2.VideoCapture(1)
+camera = cv2.VideoCapture(0)
 
 cascade_faces = 'Materiall/Material/haarcascade_frontalface_default.xml'
 caminho_modelo = 'Materiall/Material/modelo_01_expressoes.h5'
@@ -33,10 +33,8 @@ while (True):
     imagemOriginal = tirar_foto()
     cinza = cv2.cvtColor(imagemOriginal, cv2.COLOR_BGR2GRAY)
 
-    #cv2.imwrite("testecaptura.jpg",imagemPosProcessada)
-
     facesDetectadas = detectorFace.detectMultiScale(cinza, scaleFactor=1.5, minSize=(150, 150))
-
+    #print(str(len(facesDetectadas)) + " faces detectadas")
     for (fX, fY, fW, fH) in facesDetectadas:
         imagemFace = cv2.resize(cinza[fY:fY + fH, fX:fX + fW], (largura, altura))
         cv2.rectangle(imagemOriginal, (fX, fY), (fX + fW, fY + fH), (0, 0, 255), 2)
@@ -46,30 +44,26 @@ while (True):
             nome = 'Luana'
         elif id == 2:
             nome = 'Vitor'
-        cv2.putText(imagemOriginal, nome, (fX, fY + (fH + 30)), font, 2, (0, 0, 255))
+        cv2.putText(imagemOriginal, str(id) + "-" + nome, (fX, fY + (fH + 30)), font, 2, (0, 0, 255))
         cv2.putText(imagemOriginal, str(confianca), (fX, fY + (fH + 50)), font, 1, (0, 0, 255))
 
+        roi = cinza[fY:fY + fH, fX:fX + fW]
+        roi = cv2.resize(roi, (48, 48))
+        roi = roi.astype("float") / 255.0
+        roi = img_to_array(roi)
+        roi = np.expand_dims(roi, axis=0)
+        preds = classificador_emocoes.predict(roi)[0]
+        print(preds)
+        emotion_probability = np.max(preds)
+        label = expressoes[preds.argmax()]
+        cv2.putText(imagemOriginal, label, (fX, fY - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.65, (0, 0, 255), 2,
+                    cv2.LINE_AA)
+        cv2.rectangle(imagemOriginal, (fX, fY), (fX + fW, fY + fH), (0, 0, 255), 2)
+
+        if cv2.waitKey(1) & 0xFF == ord('p'):
+            break
+
         cv2.imshow("Face", imagemOriginal)
-
-        if len(facesDetectadas) > 0:
-            for (fX, fY, fW, fH) in facesDetectadas:
-                roi = cinza[fY:fY + fH, fX:fX + fW]
-                roi = cv2.resize(roi, (48, 48))
-                roi = roi.astype("float") / 255.0
-                roi = img_to_array(roi)
-                roi = np.expand_dims(roi, axis=0)
-                preds = classificador_emocoes.predict(roi)[0]
-                print(preds)
-                emotion_probability = np.max(preds)
-                label = expressoes[preds.argmax()]
-                cv2.putText(imagemOriginal, label, (fX, fY - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.65, (0, 0, 255), 2,
-                            cv2.LINE_AA)
-                cv2.rectangle(imagemOriginal, (fX, fY), (fX + fW, fY + fH), (0, 0, 255), 2)
-
-            if cv2.waitKey(1) & 0xFF == ord('p'):
-                break
-        else:
-            print('Nenhuma face detectada')
 
         probabilidades = imagemOriginal.copy()
 
@@ -91,8 +85,6 @@ while (True):
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
-
-
 
 cv2.waitKey(0)
 
