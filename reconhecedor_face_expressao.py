@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 import keyboard
+import alunos_repositorio
 
 capturar = True
 fechar = False
@@ -67,11 +68,10 @@ def reconhecedorFaceExpressao():
                     imagemFace = cv2.resize(cinza[fY:fY + fH, fX:fX + fW], (largura, altura))
                     cv2.rectangle(imagemOriginal, (fX, fY), (fX + fW, fY + fH), (0, 0, 255), 2)
                     id, confianca = reconhecedor.predict(imagemFace)
-                    nome = ""
-                    if id == 1:
-                        nome = 'Luana'
-                    elif id == 2:
-                        nome = 'Vitor'
+
+                    aluno = alunos_repositorio.get(id)
+                    nome = aluno[1]
+
                     cv2.putText(imagemOriginal, str(id) + "-" + nome, (fX, fY + (fH + 30)), font, 2, (0, 0, 255))
                     #cv2.putText(imagemOriginal, str(confianca), (fX, fY + (fH + 50)), font, 1, (0, 0, 255))
 
