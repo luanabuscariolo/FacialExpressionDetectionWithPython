@@ -55,4 +55,4 @@ def capturaFotosBD():
     camera.release()
     cv2.destroyAllWindows()
 
-capturaFotosBD()
+#capturaFotosBD()

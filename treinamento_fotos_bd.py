@@ -9,7 +9,7 @@ def treinamentoFotosBD():
     lbph = cv2.face.LBPHFaceRecognizer_create()
 
     def getImagemComId ():
-        caminhos = [os.path.join('fotos', f) for f in os.listdir('fotos')]
+        caminhos = [os.path.join('DeteccaoFaceExpressao/fotos', f) for f in os.listdir('DeteccaoFaceExpressao/fotos')]
         #print(caminhos)
         faces = []
         ids = []

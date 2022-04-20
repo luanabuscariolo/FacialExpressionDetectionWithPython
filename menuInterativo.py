@@ -1,12 +1,15 @@
 import captura_fotos_bd
 import treinamento_fotos_bd
 import reconhecedor_face_expressao
+import alunos_repositorio
 
 def print_menu():
     print('1 -- Capturar imagem')
     print('2 -- Treinar algoritmo')
     print('3 -- Reconhecer face e expressão')
     print('4 -- Sair')
+
+alunos_repositorio.createTable()
 
 while(True):
     print_menu()
