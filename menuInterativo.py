@@ -2,12 +2,14 @@ import captura_fotos_bd
 import treinamento_fotos_bd
 import reconhecedor_face_expressao
 import alunos_repositorio
+import cadastro
 
 def print_menu():
-    print('1 -- Capturar imagem')
-    print('2 -- Treinar algoritmo')
-    print('3 -- Reconhecer face e expressão')
-    print('4 -- Sair')
+    print('1 -- Cadastrar aluno')
+    print('2 -- Capturar imagem')
+    print('3 -- Treinar algoritmo')
+    print('4 -- Reconhecer face e expressão')
+    print('5 -- Sair')
 
 alunos_repositorio.createTable()
 
@@ -18,12 +20,14 @@ while(True):
     except:
         print('Caracter inválido, tente novamente.')
     if option == 1:
-        captura_fotos_bd.capturaFotosBD()
+        cadastro.cadastrarAluno()
     elif option == 2:
-        treinamento_fotos_bd.treinamentoFotosBD()
+        captura_fotos_bd.capturaFotosBD()
     elif option == 3:
-        reconhecedor_face_expressao.reconhecedorFaceExpressao()
+        treinamento_fotos_bd.treinamentoFotosBD()
     elif option == 4:
+        reconhecedor_face_expressao.reconhecedorFaceExpressao()
+    elif option == 5:
         quit(0)
     else:
-        print('Válido somente números de 1 a 4, tente novamente.')
+        print('Válido somente números de 1 a 5, tente novamente.')

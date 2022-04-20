@@ -13,11 +13,14 @@ def createTable():
 def insert(nome):
     cursor.execute("INSERT INTO alunos (nome) VALUES ('"  + nome + "')")
     banco.commit()
+    return cursor.lastrowid
 
 def get(id):
-    cursor.execute('''SELECT * FROM alunos where id = ''' + id)
+    cursor.execute('''SELECT * FROM alunos where id = ''' + str(id))
     return cursor.fetchone()
 
 def list():
     cursor.execute('''SELECT * FROM alunos''')
     return cursor.fetchall()
+
+#print(get(1))

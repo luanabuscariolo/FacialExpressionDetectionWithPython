@@ -2,6 +2,7 @@ import cv2
 import numpy as np
 import keyboard
 import os
+import alunos_repositorio
 
 capturar = False
 
@@ -19,13 +20,27 @@ def capturaFotosBD():
 
     classificador = cv2.CascadeClassifier("haarcascade-frontalface-default.xml")
     classificadorOlho = cv2.CascadeClassifier("haarcascade-eye.xml")
-    camera = cv2.VideoCapture(1)
+    camera = cv2.VideoCapture(1, cv2.CAP_DSHOW)
     amostra = 1
     numeroAmostras = 25
+
+    alunos = alunos_repositorio.list()
+    print('Id' + '\t' + 'Nome')
+    for aluno in alunos:
+        print(str(aluno[0])+'\t'+aluno[1])
+
     id = input('Digite seu identificador: ')
     largura, altura = 220, 220
 
-    while (True):
+    existe = False
+
+    for aluno in alunos:
+        if str(aluno[0]) == id:
+            existe = True
+    if existe == False:
+        print('Id invalido. ')
+
+    while (existe):
         conectado, imagem = camera.read()
         imagemCinza = cv2.cvtColor(imagem, cv2.COLOR_BGR2GRAY)
         facesDetectadas = classificador.detectMultiScale(imagemCinza, scaleFactor=1.5, minSize=(150,150))
@@ -50,7 +65,8 @@ def capturaFotosBD():
         if (amostra >= numeroAmostras + 1):
             break
 
-    print("Faces capturadas com sucesso")
+    if existe == True:
+        print("Faces capturadas com sucesso")
 
     camera.release()
     cv2.destroyAllWindows()
