@@ -1,9 +1,13 @@
 import sqlite3
 
-banco = sqlite3.connect('bd_alunos.db')
-cursor = banco.cursor()
+banco = None
+cursor = None
 
 def createTable():
+    global banco
+    global cursor
+    banco = sqlite3.connect('bd_alunos.db')
+    cursor = banco.cursor()
     try: cursor.execute("CREATE TABLE alunos ("
                    "id INTEGER PRIMARY KEY AUTOINCREMENT, "
                    "nome TEXT)")

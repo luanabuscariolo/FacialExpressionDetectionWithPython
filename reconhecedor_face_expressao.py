@@ -6,17 +6,14 @@ import alunos_repositorio
 capturar = True
 fechar = False
 
-keyboard.on_press_key("p", lambda _: podeCapturar(False))
 def podeCapturar(valor):
     global capturar
     capturar = valor
 
-keyboard.on_press_key("r", lambda _: podeCapturar(True))
 def podeCapturar(valor):
     global capturar
     capturar = valor
 
-keyboard.on_press_key("x", lambda _: fecharJanela())
 def fecharJanela():
     global fechar
     fechar = True
@@ -24,6 +21,12 @@ def fecharJanela():
 def reconhecedorFaceExpressao():
     global fechar
     global capturar
+
+    fechar= False
+
+    keyboard.on_press_key("p", lambda _: podeCapturar(False))
+    keyboard.on_press_key("r", lambda _: podeCapturar(True))
+    keyboard.on_press_key("x", lambda _: fecharJanela())
 
     camera = cv2.VideoCapture(1)
 
@@ -50,10 +53,6 @@ def reconhecedorFaceExpressao():
     classificador_emocoes = load_model(caminho_modelo, compile=False)
 
     expressoes = ["Raiva", "Nojo", "Medo", "Feliz", "Triste", "Surpreso", "Neutro"]
-
-    print("Para pausar aperte P")
-    print("Para continuar aperte R")
-    print("Para fechar aperte X")
 
     while (True):
           if capturar == True:
@@ -113,9 +112,11 @@ def reconhecedorFaceExpressao():
                 cv2.waitKey(1)
 
           if fechar == True:
+            camera.release()
             cv2.destroyAllWindows()
+            keyboard.unhook_all();
             break
 
-    #cv2.waitKey(0)
+    cv2.waitKey(0)
 
 #reconhecedorFaceExpressao()

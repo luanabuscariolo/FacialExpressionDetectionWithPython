@@ -3,6 +3,7 @@ import treinamento_fotos_bd
 import reconhecedor_face_expressao
 import alunos_repositorio
 import cadastro
+import os
 
 def print_menu():
     print('1 -- Cadastrar aluno')
@@ -31,3 +32,7 @@ while(True):
         quit(0)
     else:
         print('Válido somente números de 1 a 5, tente novamente.')
+
+    input("Pressione ENTER para continuar")
+    os.system('cls' if os.name == 'nt' else 'clear')
+
